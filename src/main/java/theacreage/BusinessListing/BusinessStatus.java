@@ -9,9 +9,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name="business_status")
 public class BusinessStatus {
+
     @Id
     @GeneratedValue
     private int id;
+
     @Column(name="status_name")
     private String statusName;
 
