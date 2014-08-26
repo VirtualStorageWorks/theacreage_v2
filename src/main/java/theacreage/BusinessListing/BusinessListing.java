@@ -12,17 +12,23 @@ import java.util.Date;
 @Entity
 @Table(name="business_listing")
 public class BusinessListing {
+
     @Id
     @GeneratedValue
     private int id;
+
     @ManyToOne
     private User user;
+
     @Column(name="business_name")
     private String businessName;
+
     @ManyToOne
     private BusinessStatus businessStatus;
+
     @Column(name="date_created")
     private Date dateCreated;
+
     @Column(name="date_updated")
     private Date dateUpdated;
 
