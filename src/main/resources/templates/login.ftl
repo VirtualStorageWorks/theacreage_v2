@@ -19,5 +19,8 @@
     <div><label> Password: <input type="password" name="password"/> </label></div>
     <div><input type="submit" value="Sign In"/></div>
 </form>
+<div>
+    <a href="/signup">Register</a>
+</div>
 </body>
 </html>
