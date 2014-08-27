@@ -1,6 +1,8 @@
 package theacreage.Classified;
+/*
 
 import theacreage.User.User;
+*/
 
 import javax.persistence.*;
 import javax.persistence.Table;
@@ -15,8 +17,8 @@ public class Classified {
     @Id
     @GeneratedValue
     private int Id;
-    @ManyToOne
-    private User user;
+/*    @ManyToOne
+    private User user;*/
     private String title;
     private String body;
     private String contactphonenumber;
@@ -38,6 +40,7 @@ public class Classified {
     public void setId(int id) {
         Id = id;
     }
+/*
 
     public User getUser() {
         return user;
@@ -46,6 +49,7 @@ public class Classified {
     public void setUser(User user) {
         this.user = user;
     }
+*/
 
     public String getTitle() {
         return title;

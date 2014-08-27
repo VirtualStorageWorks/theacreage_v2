@@ -1,7 +1,5 @@
 package theacreage.BusinessListing;
 
-import theacreage.User.User;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -16,9 +14,6 @@ public class BusinessListing {
     @Id
     @GeneratedValue
     private int id;
-
-    @ManyToOne
-    private User user;
 
     @Column(name="business_name")
     private String businessName;
@@ -38,14 +33,6 @@ public class BusinessListing {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getBusinessName() {
