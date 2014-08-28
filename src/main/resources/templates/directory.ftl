@@ -6,7 +6,9 @@
 </head>
 <body>
 <#list userList as user>
-    ${user.firstName}<br>
+    <#if user.firstName??>
+        ${user.firstName}<br>
+    </#if>
 </#list>
 </body>
 

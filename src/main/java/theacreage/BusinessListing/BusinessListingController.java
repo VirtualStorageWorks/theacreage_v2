@@ -16,7 +16,6 @@ public class BusinessListingController {
     @Autowired
     private BusinessListingRepository businessListingRepository;
 
-    @Secured("ROLE_ADMIN")
     @RequestMapping("/BusinessListings")
     public String showBusinessListings(Model model){
         List<BusinessListing> businessListingList = businessListingRepository.findAll();
