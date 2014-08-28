@@ -9,6 +9,8 @@ import theacreage.User.SecurityUser;
 import theacreage.User.User;
 import theacreage.User.UserRepository;
 
+import java.util.Date;
+
 /**
  * @author Siva
  *
@@ -23,6 +25,8 @@ public class CustomUserDetailsService implements UserDetailsService{
     public UserDetails loadUserByUsername(String userName)
             throws UsernameNotFoundException {
         User user = userService.findByUsername(userName);
+        user.setLastLogin(new Date());
+        userService.save(user);
         if(!user.isEnabled()){
             throw new DisabledException("User is disabled");
         }

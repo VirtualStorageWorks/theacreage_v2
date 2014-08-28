@@ -10,12 +10,19 @@ import java.util.Date;
 @Entity
 @Table(name="classified_picture")
 public class ClassifiedPicture {
+
     @Id
     @GeneratedValue
     private int id;
+
+    @Column(name = "file_name")
     private String fileName;
+
+    @Column(name="file_path")
     private String filePath;
-    private Date addedDate;
+
+    @Column(name = "date_added")
+    private Date dateAdded;
 
     @ManyToOne
     private Classified classified;
@@ -36,12 +43,7 @@ public class ClassifiedPicture {
         this.fileName = fileName;
     }
 
-    public void setClassified(Classified classified) {
-        this.classified = classified;
-    }
-
     public String getFilePath() {
-
         return filePath;
     }
 
@@ -49,11 +51,19 @@ public class ClassifiedPicture {
         this.filePath = filePath;
     }
 
-    public Date getAddedDate() {
-        return addedDate;
+    public Date getDateAdded() {
+        return dateAdded;
     }
 
-    public void setAddedDate(Date addedDate) {
-        this.addedDate = addedDate;
+    public void setDateAdded(Date dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
+    public Classified getClassified() {
+        return classified;
+    }
+
+    public void setClassified(Classified classified) {
+        this.classified = classified;
     }
 }
