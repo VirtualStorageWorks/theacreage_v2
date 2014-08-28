@@ -3,6 +3,7 @@ package theacreage.Classified;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import theacreage.Classified.Classified;
 import theacreage.BusinessListing.BusinessListingRepository;
@@ -20,6 +21,13 @@ public class ClassifiedController {
     public String showClassifiedListings(Model model){
         List<Classified> classifiedList = classifiedRepository.findAll();
         model.addAttribute("listOfClassifieds", classifiedList);
-        return "classifiedListings";
+        return "classifieds";
+    }
+
+    @RequestMapping("/classifieds/{id}")
+    public String showClassifiedListingDetail(@PathVariable("id") int id, Model model){
+        Classified classified = classifiedRepository.findOne(id);
+        model.addAttribute(classified);
+        return "classified";
     }
 }

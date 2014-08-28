@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +20,7 @@ import theacreage.CustomUserDetailsService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by wpmwm on 8/27/2014.
@@ -42,6 +40,13 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+
+    @RequestMapping("/directory")
+    public String userDirectory(Model model){
+        List<User> userList = userRepository.findAll();
+        model.addAttribute("userList", userList);
+        return "directory";
+    }
 
     @RequestMapping(value = "/signup")
     public String newUserSignupPage(){

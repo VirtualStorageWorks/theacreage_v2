@@ -4,6 +4,8 @@ package theacreage.Classified;
 import theacreage.User.User;
 */
 
+import theacreage.User.User;
+
 import javax.persistence.*;
 import javax.persistence.Table;
 import java.util.Date;
@@ -17,21 +19,32 @@ public class Classified {
     @Id
     @GeneratedValue
     private int Id;
-/*    @ManyToOne
-    private User user;*/
+
+    @ManyToOne
+    private User user;
+
     private String title;
     private String body;
-    private String contactphonenumber;
-    private String contactcellphone;
-    private String contactemail;
+
+    @Column(name = "phone")
+    private String phoneNumber;
+
+    @Column(name = "cell_phone")
+    private String cellPhone;
+
+    private String email;
     private String address;
     private String city;
     private String state;
     private String zip;
     private String latitude;
     private String longitude;
-    private Date postedDate;
-    private Date modifiedDate;
+
+    @Column(name = "date_posted")
+    private Date datePosted;
+
+    @Column(name = "date_modified")
+    private Date dateModified;
 
     public int getId() {
         return Id;
@@ -40,7 +53,6 @@ public class Classified {
     public void setId(int id) {
         Id = id;
     }
-/*
 
     public User getUser() {
         return user;
@@ -49,7 +61,6 @@ public class Classified {
     public void setUser(User user) {
         this.user = user;
     }
-*/
 
     public String getTitle() {
         return title;
@@ -67,28 +78,28 @@ public class Classified {
         this.body = body;
     }
 
-    public String getContactphonenumber() {
-        return contactphonenumber;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setContactphonenumber(String contactphonenumber) {
-        this.contactphonenumber = contactphonenumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getContactcellphone() {
-        return contactcellphone;
+    public String getCellPhone() {
+        return cellPhone;
     }
 
-    public void setContactcellphone(String contactcellphone) {
-        this.contactcellphone = contactcellphone;
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
     }
 
-    public String getContactemail() {
-        return contactemail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setContactemail(String contactemail) {
-        this.contactemail = contactemail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getAddress() {
@@ -139,19 +150,19 @@ public class Classified {
         this.longitude = longitude;
     }
 
-    public Date getPostedDate() {
-        return postedDate;
+    public Date getDatePosted() {
+        return datePosted;
     }
 
-    public void setPostedDate(Date postedDate) {
-        this.postedDate = postedDate;
+    public void setDatePosted(Date datePosted) {
+        this.datePosted = datePosted;
     }
 
-    public Date getModifiedDate() {
-        return modifiedDate;
+    public Date getDateModified() {
+        return dateModified;
     }
 
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+    public void setDateModified(Date dateModified) {
+        this.dateModified = dateModified;
     }
 }
