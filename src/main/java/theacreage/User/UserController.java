@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -54,9 +55,13 @@ public class UserController {
         user.setDateJoined(new Date());
         user.setLastLogin(new Date());
         user.setEnabled(true);
+        Role role = roleRepository.findByRole("ROLE_USER");
+        Set<Role> userRoles = new HashSet<Role>();
+        userRoles.add(role);
+        user.setRoles(userRoles);
         userRepository.save(user);
 
-        autoLogin(user.getEmail());
+        autoLogin(user.getUsername());
 
         return "index";
     }

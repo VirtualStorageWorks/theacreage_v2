@@ -11,7 +11,7 @@ public class Role {
 
     public Role(){}
 
-    public Role(User user, String role){
+    public Role(String role){
         this.setRole(role);
     }
 
@@ -20,9 +20,6 @@ public class Role {
     private int id;
 
     private String role;
-
-    @ManyToOne
-    private User user;
 
     public int getId() {
         return id;
@@ -40,11 +37,4 @@ public class Role {
         this.role = role;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
