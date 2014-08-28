@@ -11,6 +11,7 @@ public class LoginController {
 
     @RequestMapping("/login")
     public String showLoginPage(){
+
         return "login";
     }
 }

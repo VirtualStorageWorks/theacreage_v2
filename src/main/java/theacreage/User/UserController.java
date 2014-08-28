@@ -56,16 +56,28 @@ public class UserController {
         user.setEnabled(true);
         userRepository.save(user);
 
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getEmail());
+        autoLogin(user.getEmail());
 
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken (userDetails, user.getPassword(), userDetails.getAuthorities());
-        authenticationManager.authenticate(auth);
-        if(auth.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            System.out.println("here");
-            return "index";
-        }
         return "index";
+    }
 
-}
+    /**
+     * Automatic login after successful registration.
+     * @param username
+     */
+    public boolean autoLogin(String username) {
+        try {
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(username,userDetails.getPassword(), userDetails.getAuthorities());
+
+            // Place the new Authentication object in the security context.
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+        catch (Exception e) {
+            SecurityContextHolder.getContext().setAuthentication(null);
+            System.out.print(e);
+            return false;
+        }
+        return true;
+    }
 }

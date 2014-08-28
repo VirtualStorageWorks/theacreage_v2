@@ -45,7 +45,7 @@ public class User {
     private Date lastLogin;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "username")
+    @JoinColumn(name = "user_id")
     private Set<Role> roles;
 
     public int getId() {

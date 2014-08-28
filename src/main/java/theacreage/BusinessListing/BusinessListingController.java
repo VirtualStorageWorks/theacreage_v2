@@ -1,6 +1,7 @@
 package theacreage.BusinessListing;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,8 @@ import java.util.List;
 public class BusinessListingController {
     @Autowired
     private BusinessListingRepository businessListingRepository;
+
+    @Secured("ROLE_ADMIN")
     @RequestMapping("/BusinessListings")
     public String showBusinessListings(Model model){
         List<BusinessListing> businessListingList = businessListingRepository.findAll();

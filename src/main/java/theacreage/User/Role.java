@@ -21,6 +21,9 @@ public class Role {
 
     private String role;
 
+    @ManyToOne
+    private User user;
+
     public int getId() {
         return id;
     }
@@ -37,4 +40,11 @@ public class Role {
         this.role = role;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
