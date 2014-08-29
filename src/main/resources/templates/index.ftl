@@ -37,7 +37,12 @@
                 <li><a href="/about">About</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Login</a></li>
+                <#if CurrentUser??>
+                    <h3>${CurrentUser.username}</h3>
+                    <li><a href="/logout">Logout</a></li>
+                <#else>
+                    <li><a href="/login">Login</a></li>
+                </#if>
             </ul>
         </div>
     </div>
