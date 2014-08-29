@@ -12,7 +12,19 @@ import java.util.Set;
 @Table(name="users")
 public class User {
 
+
     public User(){}
+
+    public User(User user) {
+        this.dateJoined = user.getDateJoined();
+        this.email = user.getEmail();
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.enabled = user.isEnabled();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.lastLogin = user.getLastLogin();
+    }
 
     public User(String username, String password, String email){
         this.setUsername(username);
@@ -43,10 +55,6 @@ public class User {
 
     @Column(name="last_login")
     private Date lastLogin;
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
-    private Set<Role> roles;
 
     public int getId() {
         return id;
@@ -120,11 +128,4 @@ public class User {
         this.lastLogin = lastLogin;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 }
