@@ -30,13 +30,14 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName)
             throws UsernameNotFoundException {
         User user = userRepository.findByUsername(userName);
+        if(user == null){
+            user = userRepository.findByEmail(userName);
+            throw new UsernameNotFoundException("UserName "+userName+" not found");
+        }
         user.setLastLogin(new Date());
         userRepository.save(user);
         if(!user.isEnabled()){
             throw new DisabledException("User is disabled");
-        }
-        if(user == null){
-            throw new UsernameNotFoundException("UserName "+userName+" not found");
         }
         return new UserRepositoryUserDetails(user);
     }
@@ -44,13 +45,7 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
     private final static class UserRepositoryUserDetails extends User implements UserDetails {
 
         private UserRepositoryUserDetails(User user){
-            this.setId(user.getId());
-            this.setEmail(user.getEmail());
-            this.setPassword(user.getPassword());
-            this.setFirstName(user.getFirstName());
-            this.setLastName(user.getLastName());
-            this.setDateJoined(user.getDateJoined());
-            this.setLastLogin(user.getLastLogin());
+            super(user);
         }
 
 
