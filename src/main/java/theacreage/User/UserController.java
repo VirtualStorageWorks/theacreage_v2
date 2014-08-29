@@ -65,8 +65,8 @@ public class UserController {
         String password = user.getPassword();
         password = encoder.encode(password);
         user.setPassword(password);
-        user.setDateJoined(new Date());
-        user.setLastLogin(new Date());
+        user.setDateJoined(Calendar.getInstance());
+        user.setLastLogin(Calendar.getInstance());
         user.setEnabled(true);
 
         userRepository.save(user);

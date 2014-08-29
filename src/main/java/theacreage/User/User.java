@@ -2,8 +2,11 @@ package theacreage.User;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import theacreage.BusinessListing.BusinessListing;
+import theacreage.Classified.Classified;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
@@ -58,10 +61,16 @@ public class User {
     private boolean enabled;
 
     @Column(name="date_joined")
-    private Date dateJoined;
+    private Calendar dateJoined;
 
     @Column(name="last_login")
-    private Date lastLogin;
+    private Calendar lastLogin = Calendar.getInstance();
+
+    @OneToMany(mappedBy = "user")
+    private Set<BusinessListing> businessListings;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Classified> classifieds;
 
     public int getId() {
         return id;
@@ -119,20 +128,35 @@ public class User {
         this.enabled = enabled;
     }
 
-    public Date getDateJoined() {
+    public Calendar getDateJoined() {
         return dateJoined;
     }
 
-    public void setDateJoined(Date dateJoined) {
+    public void setDateJoined(Calendar dateJoined) {
         this.dateJoined = dateJoined;
     }
 
-    public Date getLastLogin() {
+    public Calendar getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(Date lastLogin) {
+    public void setLastLogin(Calendar lastLogin) {
         this.lastLogin = lastLogin;
     }
 
+    public Set<BusinessListing> getBusinessListings() {
+        return businessListings;
+    }
+
+    public void setBusinessListings(Set<BusinessListing> businessListings) {
+        this.businessListings = businessListings;
+    }
+
+    public Set<Classified> getClassifieds() {
+        return classifieds;
+    }
+
+    public void setClassifieds(Set<Classified> classifieds) {
+        this.classifieds = classifieds;
+    }
 }

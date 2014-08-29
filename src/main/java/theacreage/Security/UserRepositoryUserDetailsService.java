@@ -34,8 +34,6 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
             user = userRepository.findByEmail(userName);
             throw new UsernameNotFoundException("UserName "+userName+" not found");
         }
-        user.setLastLogin(new Date());
-        userRepository.save(user);
         if(!user.isEnabled()){
             throw new DisabledException("User is disabled");
         }
