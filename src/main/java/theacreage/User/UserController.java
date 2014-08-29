@@ -13,10 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import theacreage.UserRepositoryUserDetailsService;
+import theacreage.Security.UserRepositoryUserDetailsService;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -43,15 +44,23 @@ public class UserController {
         return "directory";
     }
 
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public String signupForm(@ModelAttribute User user) {
-        return "signup";
+    @RequestMapping("/account/{id}")
+    public String userAccount(@PathVariable("id") int id, @ModelAttribute User user, Model model){
+        user = userRepository.findOne(id);
+        model.addAttribute("user", user);
+
+        return "userAccount";
     }
 
-    @RequestMapping(value = "/createUser", method = RequestMethod.POST)
-    public String newUserSignup(@Valid User user, BindingResult result, RedirectAttributes redirect) {
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String registerForm(@ModelAttribute User user) {
+        return "register";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String newUserRegistration(@Valid User user, BindingResult result, RedirectAttributes redirect) {
         if(result.hasErrors()){
-            return "signup";
+            return "register";
         }
         String password = user.getPassword();
         password = encoder.encode(password);

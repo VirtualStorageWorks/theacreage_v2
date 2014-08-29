@@ -33,7 +33,7 @@
                 <li><a href="/account">Account</a></li>
                 <li><a href="/messages">Messages</a></li>
                 <li><a href="/classifieds">Classifieds</a></li>
-                <li><a href="/businesslistings">Directory</a></li>
+                <li><a href="/businesslistings">Business Directory</a></li>
                 <li><a href="/about">About</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

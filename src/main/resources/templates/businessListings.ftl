@@ -6,7 +6,7 @@
 </head>
 <body>
 <#list listOfBusinesses as businesslisting>
-    ${businesslisting.businessName}<br>
+    <a href="/businesslisting/${businesslisting.id}">${businesslisting.businessName}</a><br>
 
 </#list>
 </body>

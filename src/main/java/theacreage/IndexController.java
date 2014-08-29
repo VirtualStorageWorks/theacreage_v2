@@ -20,12 +20,9 @@ public class IndexController {
     public String showHomePage(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Object myUser = (auth != null) ? auth.getPrincipal() :  null;
-        System.out.println("test");
 
         if (myUser instanceof User) {
-            System.out.println("test2");
             User user = (User) myUser;
-            System.out.println(user.getUsername());
             model.addAttribute("CurrentUser", user);
         }
         return "index";

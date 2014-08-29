@@ -1,5 +1,8 @@
 package theacreage.User;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
@@ -36,10 +39,14 @@ public class User {
     @GeneratedValue
     private int id;
 
+    @NotEmpty(message = "Username is required")
     private String username;
 
+    @NotEmpty(message = "Password is required.")
     private String password;
 
+    @Email(message = "Please provide a valid email address.")
+    @NotEmpty(message = "Email is required.")
     private String email;
 
     @Column(name="first_name")

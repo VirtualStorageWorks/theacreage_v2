@@ -1,4 +1,4 @@
-package theacreage;
+package theacreage.Security;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

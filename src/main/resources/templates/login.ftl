@@ -64,7 +64,7 @@
             <div class="login-form">
                 <h2>Login</h2>
                 <div class="register">
-                    <a href="/signup">Register</a>
+                    <a href="/register">Register</a>
                 </div>
                 <form action="/login" method="post">
                     <fieldset>
