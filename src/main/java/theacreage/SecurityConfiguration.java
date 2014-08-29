@@ -28,7 +28,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private DataSource datasource;
 
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private UserRepositoryUserDetailsService userRepositoryUserDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -61,26 +61,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/resources/**"); // #3
+                .antMatchers("/resources/**");
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //JdbcUserDetailsManager userDetailsService = new JdbcUserDetailsManager();
-        //userDetailsService.setDataSource(datasource);
         PasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        auth.userDetailsService(customUserDetailsService).passwordEncoder(encoder);
-
-        auth.userDetailsService(customUserDetailsService);
-        //auth.jdbcAuthentication().dataSource(datasource);
-
-/*        if(!userDetailsService.userExists("user")) {
-            List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-            authorities.add(new SimpleGrantedAuthority("USER"));
-            User userDetails = new User("user",  encoder.encode("password"), authorities);
-
-            userDetailsService.createUser(userDetails);
-        }*/
+        auth.userDetailsService(userRepositoryUserDetailsService).passwordEncoder(encoder);
+        auth.userDetailsService(userRepositoryUserDetailsService);
     }
 }

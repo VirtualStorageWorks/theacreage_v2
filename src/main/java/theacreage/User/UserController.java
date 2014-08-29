@@ -1,26 +1,23 @@
 package theacreage.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import theacreage.CustomUserDetailsService;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import theacreage.UserRepositoryUserDetailsService;
+import javax.validation.Valid;
 import java.util.*;
 
 /**
@@ -32,63 +29,47 @@ public class UserController {
     @Autowired
     protected AuthenticationManager authenticationManager;
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private UserRepositoryUserDetailsService userRepositoryUserDetailsService;
 
-    private String password;
     PasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
 
     @RequestMapping("/directory")
-    public String userDirectory(Model model){
+    public String userDirectory(Model model) {
         List<User> userList = userRepository.findAll();
         model.addAttribute("userList", userList);
         return "directory";
     }
 
-    @RequestMapping(value = "/signup")
-    public String newUserSignupPage(){
+    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    public String signupForm(@ModelAttribute User user) {
         return "signup";
     }
 
     @RequestMapping(value = "/createUser", method = RequestMethod.POST)
-    public String newUserSignup(@ModelAttribute("user") User user, BindingResult result,  HttpServletRequest request, HttpServletResponse response){
-        password = user.getPassword();
-        user.setPassword(encoder.encode(password));
+    public String newUserSignup(@Valid User user, BindingResult result, RedirectAttributes redirect) {
+        if(result.hasErrors()){
+            return "signup";
+        }
+        String password = user.getPassword();
+        password = encoder.encode(password);
+        user.setPassword(password);
         user.setDateJoined(new Date());
         user.setLastLogin(new Date());
         user.setEnabled(true);
-        Role role = roleRepository.findByRole("ROLE_USER");
-        Set<Role> userRoles = new HashSet<Role>();
-        userRoles.add(role);
-        user.setRoles(userRoles);
+
         userRepository.save(user);
+        redirect.addFlashAttribute("globalMessage", "Successfully signed up!");
 
-        autoLogin(user.getUsername());
+        List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, password, authorities);
 
-        return "index";
-    }
+        // Place the new Authentication object in the security context.
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-    /**
-     * Automatic login after successful registration.
-     * @param username
-     */
-    public boolean autoLogin(String username) {
-        try {
-            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(username,userDetails.getPassword(), userDetails.getAuthorities());
+        return "redirect:/";
 
-            // Place the new Authentication object in the security context.
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
-        catch (Exception e) {
-            SecurityContextHolder.getContext().setAuthentication(null);
-            System.out.print(e);
-            return false;
-        }
-        return true;
     }
 }
