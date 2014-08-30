@@ -8,7 +8,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
     <script src="./js/bootstrap.js" type="text/javascript">
     </script>
-    <title>Account Management</title>
+    <title>The Acreage</title>
 
 
 </head>
@@ -30,15 +30,17 @@
         <div id="navbarCollapse" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="/account">Account</a></li>
+                <#if CurrentUser??>
+                <li><a href="/account/${CurrentUser.getId()}">Account</a></li>
                 <li><a href="/messages">Messages</a></li>
+                </#if>
                 <li><a href="/classifieds">Classifieds</a></li>
                 <li><a href="/businesslistings">Business Directory</a></li>
                 <li><a href="/about">About</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <#if CurrentUser??>
-                    <h3>${CurrentUser.username}</h3>
+                    ${CurrentUser.username}
                     <li><a href="/logout">Logout</a></li>
                 <#else>
                     <li><a href="/login">Login</a></li>

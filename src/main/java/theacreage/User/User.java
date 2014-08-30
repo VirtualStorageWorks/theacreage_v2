@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * Created by wpmwm on 8/27/2014.
+ * Created by VirtualStorageWorks on 8/27/2014.
  */
 @Entity
 @Table(name="users")
@@ -22,6 +22,7 @@ public class User {
     public User(){}
 
     public User(User user) {
+        this.id = user.getId();
         this.dateJoined = user.getDateJoined();
         this.email = user.getEmail();
         this.username = user.getUsername();

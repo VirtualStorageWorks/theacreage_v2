@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Date;
 
 /**
- * Created by mm247_000 on 8/28/2014.
+ * Created by VirtualStorageWorks on 8/28/2014.
  */
 @Service
 public class UserRepositoryUserDetailsService implements UserDetailsService {
@@ -32,7 +32,9 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
         User user = userRepository.findByUsername(userName);
         if(user == null){
             user = userRepository.findByEmail(userName);
-            throw new UsernameNotFoundException("UserName "+userName+" not found");
+            if(user == null){
+                throw new UsernameNotFoundException("UserName "+userName+" not found");
+            }
         }
         if(!user.isEnabled()){
             throw new DisabledException("User is disabled");
@@ -46,6 +48,9 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
             super(user);
         }
 
+
+        @Override
+        public int getId() {return super.getId(); }
 
         @Override
         public String getPassword() {

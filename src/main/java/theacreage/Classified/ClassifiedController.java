@@ -11,7 +11,7 @@ import theacreage.BusinessListing.BusinessListingRepository;
 import java.util.List;
 
 /**
- * Created by wptrs on 8/26/2014.
+ * Created by VirtualStorageWorks on 8/26/2014.
  */
 @Controller
 public class ClassifiedController {

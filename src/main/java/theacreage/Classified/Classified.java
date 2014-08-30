@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 /**
- * Created by wptrs on 8/26/2014.
+ * Created by VirtualStorageWorks on 8/26/2014.
  */
 @Entity
 @Table(name="classified")
