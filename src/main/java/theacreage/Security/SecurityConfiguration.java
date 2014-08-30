@@ -55,6 +55,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         auth.userDetailsService(userRepositoryUserDetailsService).passwordEncoder(encoder);
-        auth.userDetailsService(userRepositoryUserDetailsService);
+        //auth.userDetailsService(userRepositoryUserDetailsService);
     }
 }

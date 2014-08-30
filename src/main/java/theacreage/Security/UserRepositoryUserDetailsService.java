@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import theacreage.User.User;
 import theacreage.User.UserRepository;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -36,6 +37,8 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
                 throw new UsernameNotFoundException("UserName "+userName+" not found");
             }
         }
+        user.setLastLogin(Calendar.getInstance());
+        userRepository.save(user);
         if(!user.isEnabled()){
             throw new DisabledException("User is disabled");
         }

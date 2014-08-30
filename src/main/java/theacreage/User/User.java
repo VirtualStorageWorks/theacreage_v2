@@ -65,7 +65,7 @@ public class User {
     private Calendar dateJoined;
 
     @Column(name="last_login")
-    private Calendar lastLogin = Calendar.getInstance();
+    private Calendar lastLogin;
 
     @OneToMany(mappedBy = "user")
     private Set<BusinessListing> businessListings;
