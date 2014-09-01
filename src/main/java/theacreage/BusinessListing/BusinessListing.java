@@ -3,6 +3,7 @@ package theacreage.BusinessListing;
 import theacreage.User.User;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -27,10 +28,10 @@ public class BusinessListing {
     private BusinessStatus businessStatus;
 
     @Column(name="date_created")
-    private Date dateCreated;
+    private Calendar dateCreated;
 
     @Column(name="date_updated")
-    private Date dateUpdated;
+    private Calendar dateUpdated;
 
     public int getId() {
         return id;
@@ -64,19 +65,19 @@ public class BusinessListing {
         this.businessStatus = businessStatus;
     }
 
-    public Date getDateCreated() {
+    public Calendar getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(Calendar dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public Date getDateUpdated() {
+    public Calendar getDateUpdated() {
         return dateUpdated;
     }
 
-    public void setDateUpdated(Date dateUpdated) {
+    public void setDateUpdated(Calendar dateUpdated) {
         this.dateUpdated = dateUpdated;
     }
 }

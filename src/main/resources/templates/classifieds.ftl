@@ -5,8 +5,8 @@
 
 </head>
 <body>
-<#list listOfBusinesses as businesslisting>
-    ${businesslisting.businessName}<br>
+<#list listOfClassifieds as classified>
+    ${classified.title}<br>
 
 </#list>
 </body>

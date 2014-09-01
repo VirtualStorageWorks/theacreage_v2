@@ -35,7 +35,7 @@
                 <li><a href="/messages">Messages</a></li>
                 </#if>
                 <li><a href="/classifieds">Classifieds</a></li>
-                <li><a href="/businesslistings">Business Directory</a></li>
+                <li><a href="/businessdirectory">Business Directory</a></li>
                 <li><a href="/about">About</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

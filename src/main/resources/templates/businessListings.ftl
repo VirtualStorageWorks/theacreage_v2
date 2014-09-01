@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Business Listings</title>
+    <title>Business Directory</title>
 
 </head>
 <body>
 <#list listOfBusinesses as businesslisting>
-    <a href="/businesslisting/${businesslisting.id}">${businesslisting.businessName}</a><br>
+    <a href="/business/${businesslisting.id}">${businesslisting.businessName}</a><br>
 
 </#list>
 </body>

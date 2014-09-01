@@ -30,12 +30,12 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName)
             throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(userName);
+        User user = userRepository.findByEmailOrUsername(userName);
         if(user == null){
-            user = userRepository.findByEmail(userName);
-            if(user == null){
+            //user = userRepository.findByEmail(userName);
+            //if(user == null){
                 throw new UsernameNotFoundException("UserName "+userName+" not found");
-            }
+            //}
         }
         user.setLastLogin(Calendar.getInstance());
         userRepository.save(user);
@@ -50,7 +50,6 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
         private UserRepositoryUserDetails(User user){
             super(user);
         }
-
 
         @Override
         public int getId() {return super.getId(); }

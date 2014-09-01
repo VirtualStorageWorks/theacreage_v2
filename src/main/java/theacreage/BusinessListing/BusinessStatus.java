@@ -10,6 +10,10 @@ import javax.persistence.Table;
 @Table(name="business_status")
 public class BusinessStatus {
 
+    public BusinessStatus(){
+        this.setStatusName("Yes");
+    }
+
     @Id
     @GeneratedValue
     private int id;
