@@ -8,7 +8,7 @@ import theacreage.User.User;
 
 import javax.persistence.*;
 import javax.persistence.Table;
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Created by VirtualStorageWorks on 8/26/2014.
@@ -41,10 +41,10 @@ public class Classified {
     private String longitude;
 
     @Column(name = "date_posted")
-    private Date datePosted;
+    private Calendar datePosted;
 
     @Column(name = "date_modified")
-    private Date dateModified;
+    private Calendar dateModified;
 
     public int getId() {
         return Id;
@@ -150,19 +150,19 @@ public class Classified {
         this.longitude = longitude;
     }
 
-    public Date getDatePosted() {
+    public Calendar getDatePosted() {
         return datePosted;
     }
 
-    public void setDatePosted(Date datePosted) {
+    public void setDatePosted(Calendar datePosted) {
         this.datePosted = datePosted;
     }
 
-    public Date getDateModified() {
+    public Calendar getDateModified() {
         return dateModified;
     }
 
-    public void setDateModified(Date dateModified) {
+    public void setDateModified(Calendar dateModified) {
         this.dateModified = dateModified;
     }
 }

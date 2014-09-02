@@ -2,8 +2,10 @@ package theacreage.Security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -88,5 +90,16 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
         public boolean isEnabled() {
             return true;
         }
+    }
+
+    public User getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Object myUser = (auth != null) ? auth.getPrincipal() : null;
+        User user = new User();
+        if (myUser instanceof User) {
+            user = (User) myUser;
+            return user;
+        }
+        return null;
     }
 }
