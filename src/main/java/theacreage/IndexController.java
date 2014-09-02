@@ -27,4 +27,10 @@ public class IndexController {
         }
         return "index";
     }
+
+    @RequestMapping("/aboutus")
+    public String showAboutUsPage(){
+
+        return "aboutus";
+    }
 }

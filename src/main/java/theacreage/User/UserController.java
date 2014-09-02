@@ -44,11 +44,11 @@ public class UserController {
         return "directory";
     }
 
-    @RequestMapping("/account/{id}")
-    public String userAccount(@PathVariable("id") int id, @ModelAttribute User user, Model model){
-        user = userRepository.findOne(id);
+    @RequestMapping("/account")
+    public String userAccount(@ModelAttribute User user, Model model){
+        //user = userRepository.findByUsername(username);
+        user = userRepository.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
         model.addAttribute("user", user);
-
         return "userAccount";
     }
 

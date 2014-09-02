@@ -5,6 +5,7 @@ import theacreage.User.User;
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by wptrs on 8/26/2014.
@@ -24,7 +25,10 @@ public class BusinessListing {
     @Column(name="business_name")
     private String businessName;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinTable(name="business_listing_status",
+            joinColumns = {@JoinColumn(name="business_listing_id", referencedColumnName="id")},
+            inverseJoinColumns = {@JoinColumn(name="business_status_id", referencedColumnName="id")})
     private BusinessStatus businessStatus;
 
     @Column(name="date_created")
@@ -32,6 +36,15 @@ public class BusinessListing {
 
     @Column(name="date_updated")
     private Calendar dateUpdated;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "businessListing")
+    private Set<BusinessAddress> businessAddresses;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "business_listing_type",
+            joinColumns = {@JoinColumn(name="business_listing_id", referencedColumnName="id")},
+            inverseJoinColumns = {@JoinColumn(name = "business_type_id", referencedColumnName = "id")})
+    private BusinessType businessType;
 
     public int getId() {
         return id;
@@ -79,5 +92,21 @@ public class BusinessListing {
 
     public void setDateUpdated(Calendar dateUpdated) {
         this.dateUpdated = dateUpdated;
+    }
+
+    public Set<BusinessAddress> getBusinessAddresses() {
+        return businessAddresses;
+    }
+
+    public void setBusinessAddresses(Set<BusinessAddress> businessAddresses) {
+        this.businessAddresses = businessAddresses;
+    }
+
+    public BusinessType getBusinessType() {
+        return businessType;
+    }
+
+    public void setBusinessType(BusinessType businessType) {
+        this.businessType = businessType;
     }
 }

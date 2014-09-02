@@ -25,7 +25,7 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebMvcSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource datasource;
@@ -40,10 +40,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/signup", "/register", "/businesslisting**/**", "/classified**/**")
+                    .antMatchers("/register")
+                    .not()
+                    .access("isAuthenticated()")
+                    .and().authorizeRequests()
+                .antMatchers("/", "/signup","/aboutus", "/business**/**", "/classified**/**")
                     .permitAll()
                     .and().authorizeRequests()
-                .antMatchers("/businessdirectory").access("hasRole('ROLE_USER')")
+                .antMatchers("/userdirectory").access("hasRole('ROLE_USER')")
                     .and()
                 .authorizeRequests().anyRequest().authenticated();
         http
@@ -51,11 +55,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //.formLogin().successHandler(myAuthenticationSuccessHandler)
                 //.and()
                 .formLogin().failureUrl("/login?error")
-                    .defaultSuccessUrl("/")
+                    .defaultSuccessUrl("/account")
                     .loginPage("/login")
                     .permitAll()
                 .and()
-                    .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
+                    .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/")
                     .permitAll();
         http.csrf().disable();
     }

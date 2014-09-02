@@ -6,7 +6,7 @@
 </head>
 <body>
 <#list listOfClassifieds as classified>
-    ${classified.title}<br>
+    <a href="/classified/${classified.id}">${classified.title}</a><br>
 
 </#list>
 </body>

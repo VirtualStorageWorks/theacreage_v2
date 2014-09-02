@@ -10,12 +10,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import theacreage.BusinessListing.BusinessListing;
+import theacreage.Classified.Classified;
 import theacreage.User.User;
 import theacreage.User.UserRepository;
 
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by VirtualStorageWorks on 8/28/2014.
@@ -34,10 +37,7 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
             throws UsernameNotFoundException {
         User user = userRepository.findByEmailOrUsername(userName);
         if(user == null){
-            //user = userRepository.findByEmail(userName);
-            //if(user == null){
-                throw new UsernameNotFoundException("UserName "+userName+" not found");
-            //}
+            throw new UsernameNotFoundException("UserName "+userName+" not found");
         }
         user.setLastLogin(Calendar.getInstance());
         userRepository.save(user);
@@ -95,10 +95,9 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
     public User getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Object myUser = (auth != null) ? auth.getPrincipal() : null;
-        User user = new User();
         if (myUser instanceof User) {
-            user = (User) myUser;
-            return user;
+            //User user = userRepository.findByUsername(((User) myUser).getUsername());
+            return (User)myUser;
         }
         return null;
     }

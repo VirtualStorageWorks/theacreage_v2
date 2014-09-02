@@ -10,6 +10,22 @@ import java.util.Calendar;
 @Table(name = "business_addresses")
 public class BusinessAddress {
 
+    public BusinessAddress(){
+        this.status = true;
+        this.dateCreated = Calendar.getInstance();
+        this.dateUpdated = Calendar.getInstance();
+    }
+
+    public BusinessAddress(String address, String city, String state, String zip){
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.status = true;
+        this.dateCreated = Calendar.getInstance();
+        this.dateUpdated = Calendar.getInstance();
+    }
+
     @Id
     @GeneratedValue
     private int id;
@@ -36,6 +52,7 @@ public class BusinessAddress {
     private Calendar dateUpdated;
 
     @ManyToOne
+    @JoinColumn(name = "business_listing_id")
     private BusinessListing businessListing;
 
     public int getId() {
