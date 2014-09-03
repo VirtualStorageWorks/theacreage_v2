@@ -14,7 +14,7 @@
     <form name="user" action="/business/create" method="post">
         Business Name: <input type="text" value="${(businessListing.businessName)!""}" name="businessName" ${readOnly} /> <br/>
         Street Address: <input type="text" value="${(businessListing.address)!""}" name="address" ${readOnly} />   <br/>
-        City: <input type="text" value="${(businessListing.city)!""}" name="city" ${readOnly} />   <br/>
+        City: <input type="text" value="${(businessListing.businessAddress[0].city)!""}" name="city" ${readOnly} />   <br/>
         State: <input type="text" value="${(businessListing.state)!""}" name="state" ${readOnly} />   <br/>
         Zipcode: <input type="text" value="${(businessListing.zip)!""}" name="zip"${readOnly}  />   <br/>
 

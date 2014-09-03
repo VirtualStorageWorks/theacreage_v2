@@ -1,5 +1,8 @@
 package theacreage.BusinessListing;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.Calendar;
 
@@ -51,7 +54,7 @@ public class BusinessAddress {
     @Column(name = "date_updated")
     private Calendar dateUpdated;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "business_listing_id")
     private BusinessListing businessListing;
 

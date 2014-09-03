@@ -1,10 +1,13 @@
 package theacreage.BusinessListing;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import theacreage.User.User;
 
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -37,8 +40,8 @@ public class BusinessListing {
     @Column(name="date_updated")
     private Calendar dateUpdated;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "businessListing")
-    private Set<BusinessAddress> businessAddresses;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "businessListing", fetch = FetchType.LAZY)
+    private Set<BusinessAddress> businessAddresses = new HashSet<BusinessAddress>(0);
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "business_listing_type",

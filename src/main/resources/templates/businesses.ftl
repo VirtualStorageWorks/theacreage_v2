@@ -7,8 +7,8 @@
 <body>
 <#list listOfBusinesses as businesslisting>
     <a href="/business/${businesslisting.businessName}">${businesslisting.businessName}</a>
-    ${businesslisting.getBusinessStatus().statusName}
-    ${businesslisting.getBusinessType().getBusinessType()}<br>
+    ${businesslisting.businessStatus.statusName}
+    ${businesslisting.businessType.businessType}<br>
     <#list businesslisting.businessAddresses as businessAddress>
         ${businessAddress.city}
     </#list>

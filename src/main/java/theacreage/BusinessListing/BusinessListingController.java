@@ -36,7 +36,7 @@ public class BusinessListingController {
 
     @RequestMapping("/businessdirectory")
     public String showBusinessListings(Model model){
-        List<BusinessListing> businessListingList = businessListingRepository.findAll();
+        List<BusinessListing> businessListingList = businessListingRepository.findAllBusinessListings();
         model.addAttribute("listOfBusinesses", businessListingList);
         return "businesses";
     }
@@ -47,12 +47,10 @@ public class BusinessListingController {
         Object myUser = (auth != null) ? auth.getPrincipal() : null;
         User user = new User();
         if (myUser instanceof User) {
-            //User user = userRepository.findByUsername(((User) myUser).getUsername());
             user = (User) myUser;
             model.addAttribute("CurrentUser", user);
         }
         businessListing = businessListingRepository.findByBusinessName(businessName);
-        model.addAttribute("businessListing", businessListing);
         return "business";
     }
 
