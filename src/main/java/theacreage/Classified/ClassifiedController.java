@@ -63,13 +63,13 @@ public class ClassifiedController {
         if(result.hasErrors()){
             return "createclassifiedlisting";
         }
-        classified.setUser(userRepository.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication()).getUsername()));
+        classified.setUser(userRepository.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()));
         classified.setDatePosted(Calendar.getInstance());
         classified.setDateModified(Calendar.getInstance());
 
         classifiedRepository.save(classified);
 
-        return "redirect: /account/{id}";
+        return "redirect: /account";
     }
 
     public void PrintTest(String username){
