@@ -8,10 +8,10 @@
 <#assign readOnly = "readonly='readonly'" />
 <#if CurrentUser??>
     <#if classified.getUser().getId() == CurrentUser.id>
+        <form name="user" action="/classified/${classified.getId()}/update" method="post">
         <#assign readOnly = "" />
     </#if>
 </#if>
-<form name="user" action="/classified/create" method="post">
     Classified Title: <input type="text" value="${classified.title}" name="title" ${readOnly}/> <br/>
     Description: <input type="text" value="${classified.body}" name="body"${readOnly} />   <br/>
     Main Phone: <input type="text" value="${(classified.phone)!""}" name="phone" ${readOnly} />   <br/>
@@ -27,11 +27,8 @@
 <#if CurrentUser??>
     <#if classified.getUser().getId() == CurrentUser.id>
         <input type="submit" value="   Save   " />
+    </form>
     </#if>
 </#if>
-</form>
 </body>
-
-
-
 </html>

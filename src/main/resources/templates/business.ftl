@@ -7,17 +7,18 @@
     <body>
     <#assign readOnly = "readonly='readonly'" />
     <#if CurrentUser??>
-        <#if businessListing.getUser().getId() == CurrentUser.id>
+        <#if businessListing.getUser().id == CurrentUser.id>
+        <form name="user" action="/business/create" method="post">
             <#assign readOnly = "" />
         </#if>
     </#if>
-    <form name="user" action="/business/create" method="post">
         Business Name: <input type="text" value="${(businessListing.businessName)!""}" name="businessName" ${readOnly} /> <br/>
-        Street Address: <input type="text" value="${(businessListing.address)!""}" name="address" ${readOnly} />   <br/>
+    <#list businessListing.getBusinessAddresses() as businessAddress>
+        Street Address: <input type="text" value="${(businessAddress.city)!""}" name="address" ${readOnly} />   <br/>
         City: <input type="text" value="${(businessListing.businessAddress[0].city)!""}" name="city" ${readOnly} />   <br/>
         State: <input type="text" value="${(businessListing.state)!""}" name="state" ${readOnly} />   <br/>
         Zipcode: <input type="text" value="${(businessListing.zip)!""}" name="zip"${readOnly}  />   <br/>
-
+    </#list>
     <#if CurrentUser??>
         <#if businessListing.getUser().getId() == CurrentUser.id>
             <input type="submit" value="   Save   " />

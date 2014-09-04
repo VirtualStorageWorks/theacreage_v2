@@ -43,7 +43,6 @@ public class ClassifiedController {
         Object myUser = (auth != null) ? auth.getPrincipal() : null;
         User user = new User();
         if (myUser instanceof User) {
-                //User user = userRepository.findByUsername(((User) myUser).getUsername());
             user = (User) myUser;
             model.addAttribute("CurrentUser", user);
         }
@@ -63,8 +62,10 @@ public class ClassifiedController {
         if(result.hasErrors()){
             return "createclassifiedlisting";
         }
+
         classified.setUser(userRepository.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()));
         classified.setDatePosted(Calendar.getInstance());
+
         classified.setDateModified(Calendar.getInstance());
 
         classifiedRepository.save(classified);
@@ -72,7 +73,29 @@ public class ClassifiedController {
         return "redirect: /account";
     }
 
-    public void PrintTest(String username){
-        System.out.println(username);
+    @RequestMapping(value="/classified/{id}/update", method = RequestMethod.POST)
+    public String updateClassified(@Valid Classified classified, BindingResult result){
+        if(result.hasErrors()){
+            return "/classified/"+classified.getId();
+        }
+        Classified classifiedToUpdate = classifiedRepository.findOne(classified.getId());
+        classifiedToUpdate.setTitle(classified.getTitle());
+        classifiedToUpdate.setBody(classified.getBody());
+        classifiedToUpdate.setPhoneNumber(classified.getPhoneNumber());
+        classifiedToUpdate.setCellPhone(classified.getCellPhone());
+        classifiedToUpdate.setEmail(classified.getEmail());
+        classifiedToUpdate.setCity(classified.getCity());
+        classifiedToUpdate.setState(classified.getState());
+        classifiedToUpdate.setZip(classified.getZip());
+        classifiedToUpdate.setLatitude(classified.getLatitude());
+        classifiedToUpdate.setLongitude(classified.getLongitude());
+        classifiedToUpdate.setTitle(classified.getTitle());
+        classifiedToUpdate.setAddress(classified.getAddress());
+        classifiedToUpdate.setDateModified(Calendar.getInstance());
+
+        classifiedRepository.save(classifiedToUpdate);
+        return "/classified/"+classifiedToUpdate.getId();
+
     }
+
 }

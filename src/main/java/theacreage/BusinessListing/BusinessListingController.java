@@ -42,7 +42,7 @@ public class BusinessListingController {
     }
 
     @RequestMapping("/business/{businessName}")
-    public String showBusinessListingDetails(@PathVariable("businessName") String businessName, @ModelAttribute BusinessListing businessListing, Model model){
+    public String showBusinessListingDetails(@PathVariable("businessName") String businessName, Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Object myUser = (auth != null) ? auth.getPrincipal() : null;
         User user = new User();
@@ -50,7 +50,8 @@ public class BusinessListingController {
             user = (User) myUser;
             model.addAttribute("CurrentUser", user);
         }
-        businessListing = businessListingRepository.findByBusinessName(businessName);
+        BusinessListing businessListing = businessListingRepository.findByBusinessName(businessName);
+        model.addAttribute("businessListing", businessListing);
         return "business";
     }
 

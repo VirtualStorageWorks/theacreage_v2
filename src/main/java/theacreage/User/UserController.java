@@ -46,7 +46,6 @@ public class UserController {
 
     @RequestMapping("/account")
     public String userAccount(@ModelAttribute User user, Model model){
-        //user = userRepository.findByUsername(username);
         user = userRepository.findByUsername(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
         model.addAttribute("user", user);
         return "userAccount";

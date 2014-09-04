@@ -40,7 +40,8 @@ public class BusinessListing {
     @Column(name="date_updated")
     private Calendar dateUpdated;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "businessListing", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "businessListing", fetch = FetchType.LAZY)
     private Set<BusinessAddress> businessAddresses = new HashSet<BusinessAddress>(0);
 
     @ManyToOne(cascade = CascadeType.ALL)
