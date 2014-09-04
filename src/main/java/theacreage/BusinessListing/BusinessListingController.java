@@ -3,16 +3,15 @@ package theacreage.BusinessListing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import theacreage.User.User;
+import theacreage.User.UserRepository;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -32,17 +31,20 @@ public class BusinessListingController {
     private BusinessTypeRepository businessTypeRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private BusinessAddressRepository businessAddressRepository;
 
     @RequestMapping("/businessdirectory")
-    public String showBusinessListings(Model model){
+    public String businessesList(Model model){
         List<BusinessListing> businessListingList = businessListingRepository.findAllBusinessListings();
         model.addAttribute("listOfBusinesses", businessListingList);
         return "businesses";
     }
 
     @RequestMapping("/business/{businessName}")
-    public String showBusinessListingDetails(@PathVariable("businessName") String businessName, Model model){
+    public String businessDetails(@PathVariable("businessName") String businessName, Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Object myUser = (auth != null) ? auth.getPrincipal() : null;
         User user = new User();
@@ -57,13 +59,13 @@ public class BusinessListingController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/business/create", method = RequestMethod.GET)
-    public String createBusinessListingForm(Model model){
+    public String createForm(Model model){
         return "createbusinesslisting";
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/business/create", method = RequestMethod.POST)
-    public String createBusinessListing(@Valid BusinessListing businessListing, @Valid BusinessAddress businessAddress, BindingResult result, RedirectAttributes redirect){
+    public String create(@Valid BusinessListing businessListing, @Valid BusinessAddress businessAddress, BindingResult result, RedirectAttributes redirect){
         if(result.hasErrors()){
             return "createbusinesslisting";
         }
@@ -81,5 +83,41 @@ public class BusinessListingController {
 
         redirect.addFlashAttribute("globalMessage", "Successfully created Business Listing!");
         return "redirect:/account/";
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(value = "/business/{businessName}/update")
+    public String update(@RequestParam("status") String status, @PathVariable("businessName") String businessName, @Valid BusinessListing businessListing, @Valid BusinessAddress businessAddress, BindingResult result){
+
+        BusinessListing businessListingToUpdate = businessListingRepository.findByBusinessName(businessName);
+        User currentUser = userRepository.findByUsername(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+        Set<BusinessAddress> ba = businessListingToUpdate.getBusinessAddresses();
+        List<BusinessAddress> businessAddressList = new ArrayList<BusinessAddress>();
+        for(BusinessAddress ba1 : ba){
+            businessAddressList.add(ba1);
+        }
+        if(businessListingToUpdate.getUser().getUsername().equals(currentUser.getUsername())) {
+            if (result.hasErrors()) {
+                return "/business/" + businessListing.getBusinessName();
+            }
+            businessAddressList.get(0).setAddress(businessAddress.getAddress());
+            businessAddressList.get(0).setCity(businessAddress.getCity());
+            businessAddressList.get(0).setState(businessAddress.getState());
+            businessAddressList.get(0).setZip(businessAddress.getZip());
+            businessAddressList.get(0).setDateUpdated(Calendar.getInstance());
+            Set<BusinessAddress> businessAddresses = new HashSet<BusinessAddress>();
+            businessAddresses.add( businessAddressList.get(0));
+            businessListingToUpdate.setBusinessAddresses(businessAddresses);
+            businessListingToUpdate.setBusinessName(businessListing.getBusinessName());
+            if (status == "Inactive") {
+                businessListingToUpdate.setBusinessStatus(businessStatusRepository.findByStatusName(status));
+            }
+            businessListingToUpdate.setDateUpdated(Calendar.getInstance());
+            businessListingRepository.save(businessListingToUpdate);
+        }else{
+            return "redirect:/business/"+businessName;
+        }
+
+        return "redirect:/business/"+businessName;
     }
 }
