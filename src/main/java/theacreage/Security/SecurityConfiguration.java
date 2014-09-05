@@ -40,15 +40,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/register")
+                    .antMatchers("/register", "/login")
                     .not()
                     .access("isAuthenticated()")
                     .and().authorizeRequests()
                 .antMatchers("/", "/signup","/aboutus", "/business**/**", "/classified**/**")
                     .permitAll()
-                    .and().authorizeRequests()
-                .antMatchers("/userdirectory").access("hasRole('ROLE_USER')")
-                    .and()
+                    .and()//.authorizeRequests()
+                //.antMatchers("/userdirectory").access("hasRole('ROLE_USER')")
+                    //.and()
                 .authorizeRequests().anyRequest().authenticated();
         http
                 // not using this but could use it to set global session variables or do other logs

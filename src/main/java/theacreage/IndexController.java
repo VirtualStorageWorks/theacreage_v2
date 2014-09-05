@@ -33,4 +33,9 @@ public class IndexController {
 
         return "aboutus";
     }
+
+/*    @RequestMapping("/error")
+    public String errorPage(){
+        return "error";
+    }*/
 }

@@ -8,7 +8,7 @@
 
     <fieldset>
         <legend>List Classified</legend>
-        <form name="user" action="/classified/create" method="post">
+        <form name="user" action="/classified/create" enctype="multipart/form-data" method="post">
             Classified Title: <input type="text" name="title" /> <br/>
             Description: <input type="text" name="body" />   <br/>
             Main Phone: <input type="text" name="phone" />   <br/>
@@ -20,6 +20,8 @@
             Zip: <input type="text" name="zip" />   <br/>
             Latitude: <input type="text" name="latitude" />   <br/>
             Longitude: <input type="text" name="longitude" />   <br/>
+            File to upload: <input type="file" name="file"><br /> Name: <input
+                type="text" name="name"><br /> <br />
             <input type="submit" value="   Save   " />
         </form>
     </fieldset>

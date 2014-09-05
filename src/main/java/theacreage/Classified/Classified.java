@@ -4,11 +4,18 @@ package theacreage.Classified;
 import theacreage.User.User;
 */
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.validator.constraints.Email;
 import theacreage.User.User;
 
 import javax.persistence.*;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Calendar;
+import java.util.Set;
 
 /**
  * Created by VirtualStorageWorks on 8/26/2014.
@@ -29,9 +36,13 @@ public class Classified {
     @Column(name = "phone")
     private String phoneNumber;
 
+    @Size(min = 10, max = 10)
+    @NotNull
     @Column(name = "cell_phone")
     private String cellPhone;
 
+    @Email
+    @NotNull
     private String email;
     private String address;
     private String city;
@@ -39,6 +50,11 @@ public class Classified {
     private String zip;
     private String latitude;
     private String longitude;
+
+
+    @Fetch(FetchMode.JOIN)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classified", fetch = FetchType.LAZY)
+    private Set<ClassifiedPicture> classifiedPictures;
 
     @Column(name = "date_posted")
     private Calendar datePosted;
@@ -148,6 +164,14 @@ public class Classified {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public Set<ClassifiedPicture> getClassifiedPictures() {
+        return classifiedPictures;
+    }
+
+    public void setClassifiedPictures(Set<ClassifiedPicture> classifiedPictures) {
+        this.classifiedPictures = classifiedPictures;
     }
 
     public Calendar getDatePosted() {

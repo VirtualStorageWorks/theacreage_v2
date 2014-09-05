@@ -91,14 +91,4 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
             return true;
         }
     }
-
-    public User getCurrentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Object myUser = (auth != null) ? auth.getPrincipal() : null;
-        if (myUser instanceof User) {
-            //User user = userRepository.findByUsername(((User) myUser).getUsername());
-            return (User)myUser;
-        }
-        return null;
-    }
 }

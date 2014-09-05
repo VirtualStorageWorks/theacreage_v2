@@ -1,6 +1,7 @@
 package theacreage.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping("/directory")
     public String userDirectory(Model model) {
         List<User> userList = userRepository.findAll();

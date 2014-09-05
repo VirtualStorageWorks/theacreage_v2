@@ -2,6 +2,7 @@ package theacreage.Classified;
 
 import javax.persistence.*;
 import javax.persistence.Table;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -22,9 +23,10 @@ public class ClassifiedPicture {
     private String filePath;
 
     @Column(name = "date_added")
-    private Date dateAdded;
+    private Calendar dateAdded;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "classified_id")
     private Classified classified;
 
     public int getId() {
@@ -51,11 +53,11 @@ public class ClassifiedPicture {
         this.filePath = filePath;
     }
 
-    public Date getDateAdded() {
+    public Calendar getDateAdded() {
         return dateAdded;
     }
 
-    public void setDateAdded(Date dateAdded) {
+    public void setDateAdded(Calendar dateAdded) {
         this.dateAdded = dateAdded;
     }
 
