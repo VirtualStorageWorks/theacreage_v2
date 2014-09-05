@@ -26,8 +26,7 @@
     Longitude: <input type="text" value="${(classified.longitude)!""}" name="longitude" ${readOnly} />   <br/>
     <#if classified.getClassifiedPictures()??>
         <#list classified.getClassifiedPictures() as classifiedPicture>
-            <img src="../images/MM-uploaded.jpg" height="45" width="45">
-            <!--<img src="MichaelMerritt-uploaded.jpg" alt="Smiley face" height="42" width="42">-->
+            <img src="../images/${classifiedPicture.getFileName()}" height="45" width="45">
         </#list>
     </#if>
 <#if CurrentUser??>
