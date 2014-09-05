@@ -11,12 +11,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import theacreage.Security.UserRepositoryUserDetailsService;
 import theacreage.User.User;
 import theacreage.User.UserRepository;
 
+import javax.activation.MimetypesFileTypeMap;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -27,7 +31,8 @@ import java.util.*;
  * Created by VirtualStorageWorks on 8/26/2014.
  */
 @Controller
-public class ClassifiedController {
+public class ClassifiedController implements ServletContextAware{
+    private ServletContext servletContext;
     @Autowired
     private ClassifiedRepository classifiedRepository;
 
@@ -58,6 +63,17 @@ public class ClassifiedController {
         return "classified";
     }
 
+    @Override
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
+
+    private void validateImage(MultipartFile image) {
+        if (!image.getContentType().equals("image/jpeg") || !image.getContentType().equals("image/jpg") || !image.getContentType().equals("image/png")) {
+            throw new RuntimeException("Only JPEG and PNG images are accepted");
+        }
+    }
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/classified/create", method = RequestMethod.GET)
     public String createForm(){
@@ -65,7 +81,7 @@ public class ClassifiedController {
     }
 
     @RequestMapping(value = "/classified/create", method = RequestMethod.POST)
-    public String create(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, @Valid Classified classified, BindingResult result, RedirectAttributes redirect){
+    public String create(@RequestParam("file") MultipartFile[] files, @RequestParam("name") String name, @Valid Classified classified, BindingResult result, RedirectAttributes redirect){
         if(result.hasErrors()){
             return "createclassifiedlisting";
         }
@@ -74,25 +90,43 @@ public class ClassifiedController {
         classified.setDatePosted(Calendar.getInstance());
 
         classified.setDateModified(Calendar.getInstance());
-            if (!file.isEmpty()) {
-                try {
-                    byte[] bytes = file.getBytes();
-                    BufferedOutputStream stream =
-                            new BufferedOutputStream(new FileOutputStream(new File(name + "-uploaded")));
-                    stream.write(bytes);
-                    stream.close();
-                    //return "You successfully uploaded " + name + " into " + name + "-uploaded !";
-                } catch (Exception e) {
-                    return "You failed to upload " + name + " => " + e.getMessage();
+        String fileName = "";
+        String filePath = "";
+            if (files.length > 0) {
+                String message = "";
+                for (int i = 0; i < files.length; i++) {
+                    MultipartFile file = files[i];
+                    //validateImage(file);
+                    try {
+                        byte[] bytes = file.getBytes();
+
+                        String fileExtension = file.getContentType().substring(file.getContentType().lastIndexOf("/") + 1);
+                        // Creating the directory to store file
+                        File dir = new File(servletContext.getRealPath("/") + File.separator + "images");
+                        if (!dir.exists())
+                            dir.mkdirs();
+
+                        // Create the file on server
+                        fileName = classified.getUser().getUsername()+"_Classified_"+classified.getTitle()+ (i+1) + "." + fileExtension;
+                        filePath = dir.getAbsolutePath() + File.separator + fileName;
+                        File serverFile = new File(filePath);
+                        BufferedOutputStream stream = new BufferedOutputStream(
+                                new FileOutputStream(serverFile));
+                        stream.write(bytes);
+                        stream.close();
+
+                        message = message + "You successfully uploaded file=" + name
+                                + "<br />";
+                    } catch (Exception e) {
+                        return "You failed to upload " + name + " => " + e.getMessage();
+                    }
                 }
-            } else {
-                return "You failed to upload " + name + " because the file was empty.";
             }
         ClassifiedPicture classifiedPicture = new ClassifiedPicture();
         classifiedPicture.setDateAdded(Calendar.getInstance());
         classifiedPicture.setClassified(classified);
-        classifiedPicture.setFileName(file.getName());
-        classifiedPicture.setFilePath(file.getOriginalFilename());
+        classifiedPicture.setFileName(fileName);
+        classifiedPicture.setFilePath(filePath);
 
         Set<ClassifiedPicture> classifiedPictures = new HashSet<ClassifiedPicture>();
 
