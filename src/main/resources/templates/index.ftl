@@ -1,13 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <style type="text/css" media="screen">
-        @import "/css/bootstrap.min.css";
-    </style>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" media="screen" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="../js/bootstrap.js" type="text/javascript">
-    </script>
+    <script src="/js/bootstrap.js" type="text/javascript"></script>
     <title>The Acreage</title>
 
 
@@ -27,12 +24,27 @@
             <a href="#" class="navbar-brand">theAcreage.net</a>
         </div>
         <!-- Collection of nav links and other content for toggling -->
-
+        <div id="navbarCollapse" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <#if CurrentUser??>
+                <li><a href="/account">Account</a></li>
+                <li><a href="/messages">Messages</a></li>
+                </#if>
+                <li><a href="/classifieds">Classifieds</a></li>
+                <li><a href="/businessdirectory">Business Directory</a></li>
+                <li><a href="/aboutus">About</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <#if CurrentUser??>
+                    ${CurrentUser.username}
+                    <li><a href="/logout">Logout</a></li>
+                <#else>
+                    <li><a href="/login">Login</a></li>
+                </#if>
+            </ul>
+        </div>
     </div>
 </nav>
-
 </body>
-
-
-
 </html>

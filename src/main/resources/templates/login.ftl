@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style type="text/css" media="screen">
-        @import "/css/bootstrap.min.css";
-    </style>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" media="screen" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="../js/bootstrap.js" type="text/javascript">
-    </script>
+    <script src="/js/bootstrap.js" type="text/javascript"></script>
     <title>Spring Security Example</title>
     <style type="text/css">
         /* Override some defaults */

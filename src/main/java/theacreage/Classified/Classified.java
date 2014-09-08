@@ -189,4 +189,5 @@ public class Classified {
     public void setDateModified(Calendar dateModified) {
         this.dateModified = dateModified;
     }
+
 }
